@@ -39,7 +39,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: MikilFoss/PersonalWebsite
-          token: ${{ secrets.PERSONAL_SITE_TOKEN || secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PERSONAL_SITE_TOKEN }}
           path: personal-site
 
       - name: Copy build output
@@ -49,9 +49,12 @@ jobs:
 
       - name: Commit and push
         working-directory: ./personal-site
+        env:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_SITE_TOKEN }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://${{ secrets.PERSONAL_SITE_TOKEN }}@github.com/MikilFoss/PersonalWebsite.git
           git add cubing
           git diff --staged --quiet || git commit -m "Deploy cubing project to /cubing"
-          git push
+          git push origin main
