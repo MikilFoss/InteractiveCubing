@@ -15,6 +15,9 @@ export default function Home() {
           <Link href="/f2l" className="navLink">
             F2L Algorithms
           </Link>
+          <Link href="/timer" className="navLink">
+            Timer
+          </Link>
         </nav>
 
         <section style={{ maxWidth: "700px", margin: "0 auto", textAlign: "center" }}>

@@ -1,0 +1,527 @@
+/* Timer component styles */
+
+.timerContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  padding: 40px 20px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.timerDisplay {
+  font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Mono", monospace;
+  font-size: 6rem;
+  font-weight: 600;
+  line-height: 1;
+  transition: color 0.15s ease;
+  cursor: pointer;
+  padding: 20px;
+}
+
+.idle {
+  color: #6b7280;
+}
+
+.ready {
+  color: #22c55e;
+}
+
+.running {
+  color: #1f2937;
+}
+
+.stopped {
+  color: #2563eb;
+}
+
+.instructions {
+  margin-top: 16px;
+  color: #9ca3af;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Scramble display */
+.scrambleContainer {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 16px 24px;
+  margin-bottom: 24px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.scrambleLabel {
+  font-size: 12px;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.scrambleText {
+  font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Mono", monospace;
+  font-size: 18px;
+  color: #1f2937;
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+.scrambleActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.scrambleButton {
+  padding: 4px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 12px;
+  color: #6b7280;
+  transition: all 0.2s;
+}
+
+.scrambleButton:hover {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+/* Stats panel */
+.statsPanel {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  width: 100%;
+}
+
+.statsTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.statLabel {
+  font-size: 11px;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.statValue {
+  font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Mono", monospace;
+  font-size: 16px;
+  color: #1f2937;
+  font-weight: 500;
+}
+
+.statValueBest {
+  color: #22c55e;
+}
+
+/* Times list */
+.timesList {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.timesHeader {
+  padding: 12px 16px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.timesTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.timesCount {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.timesScroll {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.timeEntry {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 1px solid #f0f1f3;
+  gap: 12px;
+}
+
+.timeEntry:last-child {
+  border-bottom: none;
+}
+
+.timeNumber {
+  font-size: 12px;
+  color: #9ca3af;
+  width: 30px;
+}
+
+.timeValue {
+  font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Mono", monospace;
+  font-size: 14px;
+  color: #1f2937;
+  flex: 1;
+}
+
+.timeValueDNF {
+  color: #ef4444;
+}
+
+.timeValuePlus2 {
+  color: #f59e0b;
+}
+
+.timeDate {
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+.timeActions {
+  display: flex;
+  gap: 4px;
+}
+
+.timeActionButton {
+  padding: 4px 8px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 11px;
+  color: #6b7280;
+  transition: all 0.2s;
+}
+
+.timeActionButton:hover {
+  background: #f3f4f6;
+}
+
+.timeActionButtonActive {
+  background: #2563eb;
+  color: white;
+  border-color: #2563eb;
+}
+
+.deleteButton {
+  color: #ef4444;
+  border-color: #fecaca;
+}
+
+.deleteButton:hover {
+  background: #fef2f2;
+  border-color: #ef4444;
+}
+
+.emptyState {
+  padding: 40px 20px;
+  text-align: center;
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+/* Chart */
+.chartContainer {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  width: 100%;
+}
+
+.chartHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.chartTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.chartFilters {
+  display: flex;
+  gap: 4px;
+}
+
+.chartFilterButton {
+  padding: 4px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 12px;
+  color: #6b7280;
+  transition: all 0.2s;
+}
+
+.chartFilterButton:hover {
+  background: #f3f4f6;
+}
+
+.chartFilterActive {
+  background: #2563eb;
+  color: white;
+  border-color: #2563eb;
+}
+
+.chartWrapper {
+  height: 250px;
+}
+
+.chartEmpty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+/* Import modal */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modalContent {
+  background: white;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modalHeader {
+  padding: 20px 24px;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modalTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.modalClose {
+  padding: 4px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #6b7280;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.modalClose:hover {
+  color: #1f2937;
+}
+
+.modalBody {
+  padding: 24px;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formLabel {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.formHint {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-top: 4px;
+}
+
+.fileInput {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border: 2px dashed #e0e0e0;
+  border-radius: 8px;
+  background: #f8f9fa;
+  cursor: pointer;
+  font-size: 14px;
+  color: #6b7280;
+  transition: all 0.2s;
+}
+
+.fileInput:hover {
+  border-color: #2563eb;
+  background: #eff6ff;
+}
+
+.dateInput {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #1f2937;
+}
+
+.dateInput:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.checkbox input {
+  width: 16px;
+  height: 16px;
+  accent-color: #2563eb;
+}
+
+.previewBox {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.previewTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.previewItem {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #6b7280;
+  padding: 4px 0;
+}
+
+.previewValue {
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.modalFooter {
+  padding: 16px 24px;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.button {
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.buttonPrimary {
+  background: #2563eb;
+  color: white;
+  border: none;
+}
+
+.buttonPrimary:hover {
+  background: #1d4ed8;
+}
+
+.buttonPrimary:disabled {
+  background: #93c5fd;
+  cursor: not-allowed;
+}
+
+.buttonSecondary {
+  background: white;
+  color: #374151;
+  border: 1px solid #e0e0e0;
+}
+
+.buttonSecondary:hover {
+  background: #f3f4f6;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .timerDisplay {
+    font-size: 3.5rem;
+  }
+
+  .scrambleText {
+    font-size: 14px;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .chartWrapper {
+    height: 200px;
+  }
+}
