@@ -4,7 +4,7 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import { TimerState, SolveResult, TimerSettings } from '@/types/timer';
 import { generateScramble } from '@/lib/timer/scrambleGenerator';
 import { generateId, getDateString } from '@/lib/timer/timeFormatter';
-import { getSettings } from '@/lib/storage/timerStorage';
+import { getSettings, saveSettings } from '@/lib/storage/timerStorage';
 
 interface UseTimerOptions {
   onSolveComplete?: (solve: SolveResult) => void;
@@ -17,7 +17,16 @@ export function useTimer(options: UseTimerOptions = {}) {
   const [currentTime, setCurrentTime] = useState(0);
   const [scramble, setScramble] = useState('');
   const [lastResult, setLastResult] = useState<SolveResult | null>(null);
-  const [settings] = useState<TimerSettings>(getSettings);
+  const [settings, setSettings] = useState<TimerSettings>(getSettings);
+
+  // Update settings and persist to localStorage
+  const updateSettings = useCallback((newSettings: Partial<TimerSettings>) => {
+    setSettings((prev) => {
+      const updated = { ...prev, ...newSettings };
+      saveSettings(updated);
+      return updated;
+    });
+  }, []);
 
   const startTimeRef = useRef<number | null>(null);
   const animationFrameRef = useRef<number | null>(null);
@@ -104,7 +113,10 @@ export function useTimer(options: UseTimerOptions = {}) {
     if (state === 'idle' || state === 'stopped') {
       isHoldingRef.current = true;
 
-      // Start hold timer - need to hold for settings.holdTime ms
+      // Immediately transition to 'holding' state (red phase)
+      setState('holding');
+
+      // After holdTime ms (default 500ms), transition to 'ready' state (green phase)
       holdTimeoutRef.current = setTimeout(() => {
         if (isHoldingRef.current) {
           setState('ready');
@@ -120,7 +132,11 @@ export function useTimer(options: UseTimerOptions = {}) {
     }
 
     if (state === 'ready') {
+      // Released after holding long enough - start the timer
       startTimer();
+    } else if (state === 'holding') {
+      // Released too early - go back to idle
+      setState('idle');
     } else if (state === 'stopped') {
       setState('idle');
     }
@@ -185,6 +201,7 @@ export function useTimer(options: UseTimerOptions = {}) {
     scramble,
     lastResult,
     settings,
+    updateSettings,
     handleInputDown,
     handleInputUp,
     reset,

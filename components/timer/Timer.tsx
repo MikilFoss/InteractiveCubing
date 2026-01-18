@@ -3,7 +3,7 @@
 import { useState, useCallback, useMemo } from 'react';
 import { useTimer } from '@/hooks/useTimer';
 import { useTimerStorage } from '@/hooks/useTimerStorage';
-import { SolveResult, DateRange, PenaltyType } from '@/types/timer';
+import { SolveResult, DateRange, PenaltyType, TimerSettings } from '@/types/timer';
 import { calculateSessionStats } from '@/lib/timer/statistics';
 import TimerDisplay from './TimerDisplay';
 import ScrambleDisplay from './ScrambleDisplay';
@@ -11,11 +11,14 @@ import StatsPanel from './StatsPanel';
 import TimesList from './TimesList';
 import ProgressChart from './ProgressChart';
 import ImportModal from './ImportModal';
+import OptionsModal from './OptionsModal';
+import ScrambleVisualization from './ScrambleVisualization';
 import styles from './Timer.module.css';
 
 export default function Timer() {
   const [dateRange, setDateRange] = useState<DateRange>('7d');
   const [importModalOpen, setImportModalOpen] = useState(false);
+  const [optionsModalOpen, setOptionsModalOpen] = useState(false);
 
   const {
     solves,
@@ -37,6 +40,8 @@ export default function Timer() {
     state,
     currentTime,
     scramble,
+    settings,
+    updateSettings,
     handleInputDown,
     handleInputUp,
     generateNewScramble,
@@ -78,16 +83,37 @@ export default function Timer() {
 
   return (
     <div>
-      {/* Scramble */}
-      <ScrambleDisplay scramble={scramble} onNewScramble={generateNewScramble} />
+      {/* Scramble with options button */}
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+        <div style={{ flex: 1 }}>
+          <ScrambleDisplay scramble={scramble} onNewScramble={generateNewScramble} />
+        </div>
+        <button
+          className={styles.optionsButton}
+          onClick={() => setOptionsModalOpen(true)}
+          title="Timer Options"
+        >
+          Options
+        </button>
+      </div>
 
-      {/* Timer */}
-      <TimerDisplay
-        time={currentTime}
-        state={state}
-        onTouchStart={handleInputDown}
-        onTouchEnd={handleInputUp}
-      />
+      {/* Timer with visualization */}
+      <div className={styles.timerSection}>
+        <TimerDisplay
+          time={currentTime}
+          state={state}
+          onTouchStart={handleInputDown}
+          onTouchEnd={handleInputUp}
+        />
+        {settings.showVisualization && (
+          <div className={styles.cubeVisualization}>
+            <ScrambleVisualization
+              scramble={scramble}
+              mode={settings.visualizationMode}
+            />
+          </div>
+        )}
+      </div>
 
       {/* Main content grid */}
       <div
@@ -132,6 +158,14 @@ export default function Timer() {
         isOpen={importModalOpen}
         onClose={() => setImportModalOpen(false)}
         onImport={handleImport}
+      />
+
+      {/* Options Modal */}
+      <OptionsModal
+        isOpen={optionsModalOpen}
+        onClose={() => setOptionsModalOpen(false)}
+        settings={settings}
+        onSave={updateSettings}
       />
     </div>
   );

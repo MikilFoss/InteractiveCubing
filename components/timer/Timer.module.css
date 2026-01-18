@@ -26,6 +26,10 @@
   color: #6b7280;
 }
 
+.holding {
+  color: #ef4444;
+}
+
 .ready {
   color: #22c55e;
 }
@@ -507,6 +511,83 @@
   background: #f3f4f6;
 }
 
+/* Timer section with visualization */
+.timerSection {
+  position: relative;
+  width: 100%;
+}
+
+.cubeVisualization {
+  position: absolute;
+  bottom: 60px;
+  right: 0;
+  width: 160px;
+  height: 120px;
+  opacity: 0.9;
+}
+
+/* Options button */
+.optionsButton {
+  padding: 6px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  color: #6b7280;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.optionsButton:hover {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+/* Radio/checkbox groups in modal */
+.radioGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.radioOption {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.radioOption:hover {
+  background: #f8f9fa;
+}
+
+.radioOptionSelected {
+  background: #eff6ff;
+  border-color: #2563eb;
+}
+
+.radioOption input[type="radio"] {
+  accent-color: #2563eb;
+}
+
+.radioLabel {
+  font-size: 14px;
+  color: #374151;
+}
+
+.radioDescription {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
 /* Responsive */
 @media (max-width: 640px) {
   .timerDisplay {
@@ -523,5 +604,10 @@
 
   .chartWrapper {
     height: 200px;
+  }
+
+  .cubeVisualization {
+    width: 100px;
+    height: 75px;
   }
 }

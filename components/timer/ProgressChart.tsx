@@ -29,13 +29,13 @@ export default function ProgressChart({
   const chartData = useMemo(() => {
     const { dailyAverages, ao5Points, times } = calculateChartData(solves, dateRange);
 
-    // Create chart data combining daily averages with ao5 trend
+    // Create chart data combining daily averages with running ao12 trend
     // We'll show daily averages as main data points
     const dataMap = new Map<string, {
       date: string;
       displayDate: string;
       dailyMean?: number;
-      ao5?: number;
+      runningAo12?: number;
       best?: number;
       count: number;
     }>();
@@ -46,7 +46,7 @@ export default function ProgressChart({
         date: daily.date,
         displayDate: formatDate(daily.date),
         dailyMean: msToSeconds(daily.mean),
-        ao5: daily.ao5 ? msToSeconds(daily.ao5) : undefined,
+        runningAo12: daily.runningAo12 ? msToSeconds(daily.runningAo12) : undefined,
         best: msToSeconds(daily.best),
         count: daily.count,
       });
@@ -137,7 +137,7 @@ export default function ProgressChart({
                   return [
                     formatTooltipValue(numValue),
                     strName === 'dailyMean' ? 'Daily Avg' :
-                    strName === 'ao5' ? 'Best Ao5' :
+                    strName === 'runningAo12' ? 'Running Ao12' :
                     strName === 'best' ? 'Best' : strName,
                   ];
                 }}
@@ -153,7 +153,7 @@ export default function ProgressChart({
                 wrapperStyle={{ fontSize: '12px' }}
                 formatter={(value) =>
                   value === 'dailyMean' ? 'Daily Avg' :
-                  value === 'ao5' ? 'Best Ao5' :
+                  value === 'runningAo12' ? 'Running Ao12' :
                   value === 'best' ? 'Best' : value
                 }
               />
@@ -170,7 +170,7 @@ export default function ProgressChart({
 
               <Line
                 type="monotone"
-                dataKey="ao5"
+                dataKey="runningAo12"
                 stroke="#22c55e"
                 strokeWidth={2}
                 dot={{ fill: '#22c55e', strokeWidth: 0, r: 3 }}

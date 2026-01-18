@@ -69,6 +69,20 @@ export function calculateAo12(times: ComputedTime[]): AverageResult | null {
 }
 
 /**
+ * Calculate running ao5 - most recent 5 solves, drop 1 best and 1 worst
+ */
+export function calculateRunningAo5(times: ComputedTime[]): AverageResult | null {
+  return calculateAverageOfN(times, 5);
+}
+
+/**
+ * Calculate running ao12 - most recent 12 solves, drop 1 best and 1 worst
+ */
+export function calculateRunningAo12(times: ComputedTime[]): AverageResult | null {
+  return calculateAverageOfN(times, 12);
+}
+
+/**
  * Calculate ao50
  */
 export function calculateAo50(times: ComputedTime[]): AverageResult | null {
@@ -152,7 +166,7 @@ export function calculateSessionStats(solves: SolveResult[]): SessionStats {
     best: findBest(times),
     worst: findWorst(times),
     mean: calculateMean(times),
-    ao5: calculateAo5(times),
+    runningAo5: calculateRunningAo5(times),
     ao12: calculateAo12(times),
     ao50: calculateAo50(times),
     ao100: calculateAo100(times),
@@ -184,14 +198,14 @@ export function calculateDailyAverages(solves: SolveResult[]): DailyAverage[] {
     const mean = validTimes.reduce((sum, t) => sum + t.effective, 0) / validTimes.length;
     const best = Math.min(...validTimes.map(t => t.effective));
 
-    // Calculate best ao5 of the day
-    let bestAo5: number | null = null;
-    if (times.length >= 5) {
-      for (let i = 4; i < times.length; i++) {
-        const ao5 = calculateAo5(times.slice(0, i + 1));
-        if (ao5 && !ao5.isDNF) {
-          if (bestAo5 === null || ao5.value < bestAo5) {
-            bestAo5 = ao5.value;
+    // Calculate best running ao12 of the day (drops 2 best/worst)
+    let bestRunningAo12: number | null = null;
+    if (times.length >= 12) {
+      for (let i = 11; i < times.length; i++) {
+        const runningAo12 = calculateRunningAo12(times.slice(0, i + 1));
+        if (runningAo12 && !runningAo12.isDNF) {
+          if (bestRunningAo12 === null || runningAo12.value < bestRunningAo12) {
+            bestRunningAo12 = runningAo12.value;
           }
         }
       }
@@ -214,7 +228,7 @@ export function calculateDailyAverages(solves: SolveResult[]): DailyAverage[] {
       date,
       count: daySolves.length,
       mean: Math.round(mean),
-      ao5: bestAo5,
+      runningAo12: bestRunningAo12,
       ao12: bestAo12,
       best,
     });

@@ -142,10 +142,12 @@ export async function importSolves(solves: SolveResult[]): Promise<void> {
 const SETTINGS_KEY = 'timer_settings';
 
 const DEFAULT_SETTINGS: TimerSettings = {
-  holdTime: 300,
+  holdTime: 500,
   displayPrecision: 2,
   showScramble: true,
   hideTimeWhileRunning: false,
+  visualizationMode: 'net2d',
+  showVisualization: true,
 };
 
 /**

@@ -37,7 +37,7 @@ export interface DailyAverage {
   date: string;            // ISO date (YYYY-MM-DD)
   count: number;           // Number of solves
   mean: number;            // Mean time in ms
-  ao5: number | null;      // Best ao5 of the day
+  runningAo12: number | null;  // Running ao12 (drop 2 best/worst)
   ao12: number | null;     // Best ao12 of the day
   best: number;            // Best single of the day
 }
@@ -48,7 +48,7 @@ export interface SessionStats {
   best: ComputedTime | null;
   worst: ComputedTime | null;
   mean: number | null;     // Mean of all non-DNF times
-  ao5: AverageResult | null;
+  runningAo5: AverageResult | null;   // Most recent ao5
   ao12: AverageResult | null;
   ao50: AverageResult | null;
   ao100: AverageResult | null;
@@ -57,7 +57,8 @@ export interface SessionStats {
 // Timer state machine states
 export type TimerState =
   | 'idle'         // Waiting for input
-  | 'ready'        // Holding spacebar, ready to start
+  | 'holding'      // Holding spacebar, not yet ready (red phase)
+  | 'ready'        // Holding long enough, ready to start (green phase)
   | 'running'      // Timer is running
   | 'stopped';     // Timer stopped, showing result
 
@@ -70,12 +71,17 @@ export interface TimerContext {
   lastResult: SolveResult | null;
 }
 
+// Visualization mode for scramble display
+export type VisualizationMode = 'net2d' | '3d';
+
 // Timer settings stored in localStorage
 export interface TimerSettings {
-  holdTime: number;        // ms to hold before ready (default 300)
-  displayPrecision: 2 | 3; // Decimal places
+  holdTime: number;                    // ms to hold before ready (default 500)
+  displayPrecision: 2 | 3;             // Decimal places
   showScramble: boolean;
   hideTimeWhileRunning: boolean;
+  visualizationMode: VisualizationMode; // 2D net or 3D cube
+  showVisualization: boolean;          // Whether to show cube visualization
 }
 
 // csTimer export format types

@@ -48,7 +48,7 @@ export default function StatsPanel({ stats }: StatsPanelProps) {
         <div className={styles.statItem}>
           <span className={styles.statLabel}>Ao5</span>
           <span className={styles.statValue}>
-            {formatAvg(stats.ao5?.value, stats.ao5?.isDNF)}
+            {formatAvg(stats.runningAo5?.value, stats.runningAo5?.isDNF)}
           </span>
         </div>
 

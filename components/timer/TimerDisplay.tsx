@@ -19,6 +19,7 @@ export default function TimerDisplay({
 }: TimerDisplayProps) {
   const stateClass = {
     idle: styles.idle,
+    holding: styles.holding,
     ready: styles.ready,
     running: styles.running,
     stopped: styles.stopped,
@@ -28,6 +29,7 @@ export default function TimerDisplay({
 
   const instructions = {
     idle: 'Hold spacebar or tap to start',
+    holding: 'Keep holding...',
     ready: 'Release to start timer',
     running: 'Press spacebar or tap to stop',
     stopped: 'Press spacebar to reset',
