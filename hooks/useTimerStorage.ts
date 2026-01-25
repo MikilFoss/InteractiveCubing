@@ -29,7 +29,12 @@ export function useTimerStorage() {
       setError(null);
     } catch (err) {
       console.error('Failed to load solves:', err);
-      setError('Failed to load times from storage');
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      if (errorMessage.includes('IndexedDB')) {
+        setError('Storage is not available. Your times won\'t be saved. Try using a different browser or disable private browsing mode.');
+      } else {
+        setError(`Failed to load times: ${errorMessage}`);
+      }
     } finally {
       setLoading(false);
     }

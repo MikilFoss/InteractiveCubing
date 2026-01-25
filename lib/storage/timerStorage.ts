@@ -19,11 +19,48 @@ const DB_NAME = 'interactiveCubing';
 const DB_VERSION = 1;
 
 let dbPromise: Promise<IDBPDatabase<TimerDB>> | null = null;
+let dbAvailable: boolean | null = null;
+
+/**
+ * Check if IndexedDB is available
+ */
+function isIndexedDBAvailable(): boolean {
+  if (dbAvailable !== null) return dbAvailable;
+  
+  if (typeof window === 'undefined') {
+    dbAvailable = false;
+    return false;
+  }
+
+  try {
+    // Check if indexedDB exists and is accessible
+    if (!window.indexedDB) {
+      dbAvailable = false;
+      return false;
+    }
+    
+    // Test that we can actually use it (some browsers block it in certain contexts)
+    const testDB = window.indexedDB.open('test');
+    testDB.onerror = () => {
+      dbAvailable = false;
+    };
+    
+    dbAvailable = true;
+    return true;
+  } catch {
+    dbAvailable = false;
+    return false;
+  }
+}
 
 /**
  * Get or create the database connection
  */
-function getDB(): Promise<IDBPDatabase<TimerDB>> {
+async function getDB(): Promise<IDBPDatabase<TimerDB>> {
+  if (!isIndexedDBAvailable()) {
+    throw new Error('IndexedDB is not available in this browser context');
+  }
+  
   if (!dbPromise) {
     dbPromise = openDB<TimerDB>(DB_NAME, DB_VERSION, {
       upgrade(db) {
@@ -32,6 +69,10 @@ function getDB(): Promise<IDBPDatabase<TimerDB>> {
         solveStore.createIndex('by-timestamp', 'timestamp');
         solveStore.createIndex('by-date', 'date');
       },
+    }).catch((error) => {
+      // Reset promise so we can retry
+      dbPromise = null;
+      throw error;
     });
   }
   return dbPromise;
