@@ -18,6 +18,9 @@ export default function Home() {
           <Link href="/timer" className="navLink">
             Timer
           </Link>
+          <Link href="/training" className="navLink">
+            Training
+          </Link>
         </nav>
 
         <section style={{ maxWidth: "700px", margin: "0 auto", textAlign: "center" }}>
