@@ -1,17 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
-
-// Dynamic import to avoid SSR issues with IndexedDB
-const Timer = dynamic(() => import('@/components/timer/Timer'), {
-  ssr: false,
-  loading: () => (
-    <div style={{ textAlign: 'center', padding: '40px', color: '#9ca3af' }}>
-      Loading timer...
-    </div>
-  ),
-});
+import ClientTimer from '@/components/timer/ClientTimer';
 
 export default function TimerPage() {
   return (
@@ -29,7 +19,7 @@ export default function TimerPage() {
           </p>
         </div>
 
-        <Timer />
+        <ClientTimer />
       </div>
     </main>
   );

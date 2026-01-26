@@ -5,6 +5,8 @@ import { useTimer } from '@/hooks/useTimer';
 import { useTimerStorage } from '@/hooks/useTimerStorage';
 import { SolveResult, DateRange, PenaltyType, TimerSettings } from '@/types/timer';
 import { calculateSessionStats } from '@/lib/timer/statistics';
+import { exportAllData } from '@/lib/storage/timerStorage';
+import { exportToCsTimerFormat } from '@/lib/storage/importExport';
 import TimerDisplay from './TimerDisplay';
 import ScrambleDisplay from './ScrambleDisplay';
 import StatsPanel from './StatsPanel';
@@ -72,6 +74,34 @@ export default function Timer() {
     },
     [importSolves]
   );
+
+  // Handle export - all data as JSON
+  const handleExportAll = useCallback(async () => {
+    const data = await exportAllData();
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `interactivecubing-backup-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }, []);
+
+  // Handle export - csTimer format
+  const handleExportCsTimer = useCallback(() => {
+    const data = exportToCsTimerFormat(solves);
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `cstimer-export-${new Date().toISOString().split('T')[0]}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }, [solves]);
 
   if (loading) {
     return (
@@ -142,14 +172,32 @@ export default function Timer() {
             onDateRangeChange={setDateRange}
           />
 
-          {/* Import button */}
-          <button
-            className={`${styles.button} ${styles.buttonSecondary}`}
-            style={{ width: '100%' }}
-            onClick={() => setImportModalOpen(true)}
-          >
-            Import csTimer Data
-          </button>
+          {/* Import/Export buttons */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <button
+              className={`${styles.button} ${styles.buttonSecondary}`}
+              style={{ width: '100%' }}
+              onClick={() => setImportModalOpen(true)}
+            >
+              Import csTimer Data
+            </button>
+            <button
+              className={`${styles.button} ${styles.buttonSecondary}`}
+              style={{ width: '100%' }}
+              onClick={handleExportAll}
+              disabled={solves.length === 0}
+            >
+              Export All Data (JSON)
+            </button>
+            <button
+              className={`${styles.button} ${styles.buttonSecondary}`}
+              style={{ width: '100%' }}
+              onClick={handleExportCsTimer}
+              disabled={solves.length === 0}
+            >
+              Export for csTimer
+            </button>
+          </div>
         </div>
       </div>
 
